@@ -1,5 +1,5 @@
 {
   "dependencies": {
-    "@cosmwasm/cli": "^0.7.7",
+    "@cosmwasm/cli": "^0.7.7"
   }
 }
