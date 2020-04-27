@@ -102,5 +102,5 @@ const downloadWasm = async (url: string): Promise<Uint8Array> => {
   return r.data;
 }
 
-const getAttribute = (logs: readonly logs.Log[], key: string): string|undefined =>
+const getAttibute = (logs: readonly logs.Log[], key: string): string|undefined =>
   logs[0].events[0].attributes.find(x => x.key == key)?.value

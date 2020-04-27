@@ -82,6 +82,23 @@ const mnemonic = loadOrCreateMnemonic("foo.key");
 // connect the wallet, this time client is a SigningCosmWasmClient, to sign txs.
 const {address, client} = await connect(mnemonic, enigmaOptions);
 
+// Check account
+await client.getAccount()
+
+// Upload the contract
+const wasm = fs.readFileSync("../contract.wasm")
+client.upload(wasm, {})
+
+// If successfully uploaded, we should have a contract code
+await client.getCodes()
+
+const codeId = 1
+
+// Create an instance
+const initMsg = {"count": 0}
+
+client.instantiate(codeId, initMsg, "My Simple Counter")
+
 // Get the contracts for our simple counter
 const contracts = await client.getContracts(1)
 
@@ -95,4 +112,8 @@ const handleMsg = { increment: {} }
 
 // execute the message
 client.execute(contractAddress, handleMsg);
+
+// Query again to confirm it worked
+smartQuery(client, contractAddress, { get_count: {} })
+
 ```
