@@ -1,4 +1,11 @@
-interface Options {
+// import axios from "axios";
+// import * as fs from "fs";
+// import { encodeSecp256k1Pubkey, encodeSecp256k1Signature, logs, makeSignBytes, marshalTx, Pen, pubkeyToAddress, RestClient, Secp256k1Pen, types, Account, Block, BlockHeader, Code, CodeDetails, Contract, ContractDetails, CosmWasmClient, GetNonceResult, IndexedTx, PostTxResult, SearchByHeightQuery, SearchByIdQuery, SearchBySentFromOrToQuery, SearchByTagsQuery, SearchTxQuery, SearchTxFilter, ExecuteResult, FeeTable, InstantiateResult, SigningCallback, SigningCosmWasmClient, UploadMeta, UploadResult } from "@cosmwasm/sdk";
+// import { Bip39, Ed25519, Ed25519Keypair, EnglishMnemonic, Random, Secp256k1, Sha256, Sha512, Slip10, Slip10Curve, Slip10RawIndex } from "@iov/crypto"
+// import { Bech32, Encoding, Decimal, Int53, Uint32, Uint53, Uint64 } from "@iov/encoding";
+// import { assert, sleep } from "@iov/utils"
+
+export interface Options {
   httpUrl: string;
   networkId: string;
   feeToken: string;
@@ -7,14 +14,14 @@ interface Options {
 };
 
 const defaultOptions: Options = {
-  httpUrl: "https://lcd.demo-071.cosmwasm.com",
+  httpUrl: "http://localhost:1317",
   networkId: "testing",
-  feeToken: "ucosm",
+  feeToken: "uscrt",
   gasPrice: 0.025,
-  bech32prefix: "cosmos",
+  bech32prefix: "enigma",
 }
 
-const defaultFaucetUrl = "https://faucet.demo-071.cosmwasm.com/credit";
+const defaultFaucetUrl = "http://localhost:1317/credit";
 
 const buildFeeTable = (feeToken: string, gasPrice: number): FeeTable => {
   const stdFee = (gas: number, denom: string, price: number) => {
@@ -32,14 +39,6 @@ const buildFeeTable = (feeToken: string, gasPrice: number): FeeTable => {
     send: stdFee(80000, feeToken, gasPrice),
   }
 };
-
-// TODO: hit faucet
-// if (config.faucetUrl) {
-//   const acct = await client.getAccount();
-//   if (!acct?.balance?.length) {
-//     await ky.post(config.faucetUrl, { json: { ticker: "COSM", address } });
-//   }
-// }
 
 const penAddress = (pen: Secp256k1Pen, prefix: string): string => {
   const pubkey = encodeSecp256k1Pubkey(pen.pubkey);
@@ -62,7 +61,7 @@ const connect = async (mnemonic: string, opts: Partial<Options>): Promise<{
 // smartQuery assumes the content is proper JSON data and parses before returning it
 const smartQuery = async (client: CosmWasmClient, addr: string, query: object): Promise<any> => {
   const bin = await client.queryContractSmart(addr, query);
-  return JSON.parse(fromUtf8(bin));
+  return JSON.parse(Encoding.fromUtf8(bin));
 }
 
 // loadOrCreateMnemonic will try to load a mnemonic from the file.
@@ -102,5 +101,5 @@ const downloadWasm = async (url: string): Promise<Uint8Array> => {
   return r.data;
 }
 
-const getAttibute = (logs: readonly logs.Log[], key: string): string|undefined =>
+const getAttribute = (logs: readonly logs.Log[], key: string): string|undefined =>
   logs[0].events[0].attributes.find(x => x.key == key)?.value

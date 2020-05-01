@@ -10,4 +10,5 @@
 # IDEs
 *.iml
 .idea
-/client/node_modules
+client/node_modules
+client/foo.key

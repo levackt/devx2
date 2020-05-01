@@ -83,26 +83,23 @@ const mnemonic = loadOrCreateMnemonic("foo.key");
 const {address, client} = await connect(mnemonic, enigmaOptions);
 
 // Check account
-await client.getAccount()
+await client.getAccount();
+
+// If the result is `undefined` it means the account hasn't been funded.
 
 // Upload the contract
-const wasm = fs.readFileSync("../contract.wasm")
-client.upload(wasm, {})
+const wasm = fs.readFileSync("../contract.wasm");
+const uploadReceipt = await client.upload(wasm, {});
 
-// If successfully uploaded, we should have a contract code
-await client.getCodes()
-
-const codeId = 1
+// Get the code ID from the receipt
+const codeId = uploadReceipt.codeId;
 
 // Create an instance
 const initMsg = {"count": 0}
 
-client.instantiate(codeId, initMsg, "My Simple Counter")
+const contract = await client.instantiate(codeId, initMsg, "My Counter")
 
-// Get the contracts for our simple counter
-const contracts = await client.getContracts(1)
-
-const contractAddress = contracts[0].address
+const contractAddress = contract.contractAddress
 
 // and because we imported the helpers, we can use smartQuery instead of client.queryContractSmart
 smartQuery(client, contractAddress, { get_count: {} })
