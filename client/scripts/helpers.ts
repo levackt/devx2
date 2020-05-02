@@ -5,7 +5,7 @@
 // import { Bech32, Encoding, Decimal, Int53, Uint32, Uint53, Uint64 } from "@iov/encoding";
 // import { assert, sleep } from "@iov/utils"
 
-export interface Options {
+interface Options {
   httpUrl: string;
   networkId: string;
   feeToken: string;

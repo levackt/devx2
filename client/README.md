@@ -63,7 +63,7 @@ To increment our counter and change state, we have to connect our wallet
 ```bash
 # start cosmwasm-cli as before, this time importing src/helpers to configure fees etc
 
-npx @cosmwasm/cli --init src/helpers.ts
+npx @cosmwasm/cli --init scripts/helpers.ts
 ```
 
 ```js

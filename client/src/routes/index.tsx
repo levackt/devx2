@@ -6,7 +6,6 @@ import ContractList from "../components/ContractList";
 import ErrorLogic from "../components/ErrorLogic";
 import HeaderLogic from "../components/HeaderLogic";
 import ContractSearch from "./contract";
-import NameDetails from "./name";
 
 const Routes = (): JSX.Element => (
   <HashRouter basename="/">
@@ -15,7 +14,6 @@ const Routes = (): JSX.Element => (
     <Switch>
       <Route exact path="/" component={ContractList} />
       <Route exact path="/contract/:address" component={ContractSearch} />
-      <Route path="/contract/:address/details/:name" component={NameDetails} />
     </Switch>
   </HashRouter>
 );
