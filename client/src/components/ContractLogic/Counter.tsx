@@ -5,6 +5,8 @@ import * as React from "react";
 import { useAccount, useError, useSdk } from "../../service";
 import { Button, useBaseStyles} from "../../theme";
 
+import { FormValues } from "../Form";
+import { COUNT_FIELD, ResetForm } from "./ResetForm";
 import LinearProgress from '@material-ui/core/LinearProgress';
 
 export interface CounterProps {
@@ -80,6 +82,26 @@ export function Counter(props: CounterProps): JSX.Element {
     return true;
   };
 
+  const reset = async (values: FormValues): Promise<void> => {
+    const newCount = values[COUNT_FIELD];
+    setState({ loading: true });
+    try {
+      await getClient().execute(
+        props.contractAddress,
+        { reset: { count: parseInt(newCount) } }
+      );
+      setState({ count: newCount, loading: false });
+    } catch (err) {
+      setState({ loading: false });
+      setError(err);
+    }
+    try {
+      refreshAccount();
+    } catch(err) {
+      setError("Failed to reset account");
+    }
+  };
+
   return (
     <div className={classes.card}>
       <MuiTypography className={classes.isFree} variant="h6">
@@ -89,6 +111,7 @@ export function Counter(props: CounterProps): JSX.Element {
       <Button color="primary" type="submit" onClick={increment} disabled={state.loading}>
         Increment
       </Button>
+      <ResetForm handleReset={reset} loading={state.loading} />
     </div>
   );
 }
