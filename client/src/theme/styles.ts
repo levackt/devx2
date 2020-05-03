@@ -151,16 +151,6 @@ export const useBaseStyles = makeStyles((theme: Theme) =>
         boxShadow: "inset -2px -2px 6px rgba(255, 255, 255, 1), inset 2px 2px 6px rgba(0, 0, 0, 0.1);",
       },
     },
-    isFree: {
-      color: "#00BB6D",
-      marginBottom: "20px",
-      paddingLeft: "8px",
-    },
-    isOwned: {
-      color: "#ff304f",
-      marginBottom: "20px",
-      paddingLeft: "8px",
-    },
     bottomSpacer: {
       marginBottom: "8px",
     },

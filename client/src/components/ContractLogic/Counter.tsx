@@ -104,7 +104,7 @@ export function Counter(props: CounterProps): JSX.Element {
 
   return (
     <div className={classes.card}>
-      <MuiTypography className={classes.isFree} variant="h6">
+      <MuiTypography variant="h6">
         
         Counter: {state.loading ? <LinearProgress /> : state.count}
       </MuiTypography>
